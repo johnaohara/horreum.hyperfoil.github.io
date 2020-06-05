@@ -11,33 +11,39 @@ menu: false
 <div class="tasks">
     <a class="task" href="docs/operator.html">
         <div class="task_icon_box">
-            <img src="assets/images/cloud_deploy.png" alt="Distributed">
+            <img src="assets/images/cloud_deploy.png" alt="Deploy on Openshift">
         </div>
         Deploy on Openshift
     </a>
     <a class="task" href="docs/docker_compose.html">
         <div class="task_icon_box">
-            <img src="assets/images/docker_compose.png" alt="Accurate">
+            <img src="assets/images/docker_compose.png" alt="Deploy using docker-compose">
         </div>
         Deploy using docker-compose
+    </a>
+    <a class="task" href="docs/baremetal.html">
+        <div class="task_icon_box">
+            <img src="assets/images/baremetal.png" alt="Install on baremetal">
+        </div>
+        Install on bare-metal machine
     </a>
 </div>
 <div class="tasks">
     <a class="task" href="docs/user_management.html">
         <div class="task_icon_box">
-            <img src="assets/images/user.png" alt="Low-allocation">
+            <img src="assets/images/user.png" alt="User managemen">
         </div>
         User management
     </a>
     <a class="task" href="docs/upload.html">
         <div class="task_icon_box">
-            <img src="assets/images/upload.png" alt="Versatile">
+            <img src="assets/images/upload.png" alt="Upload data">
         </div>
-        Upload data.
+        Upload data
     </a>
     <a class="task" href="docs/customize.html">
         <div class="task_icon_box">
-            <img src="assets/images/customize_views.png" alt="Low-allocation">
+            <img src="assets/images/customize_views.png" alt="Customize views">
         </div>
         Customize views
     </a>
