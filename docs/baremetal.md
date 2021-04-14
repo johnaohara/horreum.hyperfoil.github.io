@@ -58,7 +58,7 @@ To import the realm use these system properties:
     -Dkeycloak.migration.strategy=IGNORE_EXISTING
 ```
 
-When Keycloak starts you should access its admin console and create team roles, users and [assign them appropriatelly](user_management.html).
+When Keycloak starts you should access its admin console and create team roles, users and [assign them appropriatelly](user_management.html). For correct integration with Grafana please remember to set email for each user (this will be used purely to match Grafana identities).
 
 You should also open `horreum` client, switch to 'Credentials' tab and record the Secret (UUID identifier).
 

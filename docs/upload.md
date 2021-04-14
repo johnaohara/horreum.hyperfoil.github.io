@@ -11,10 +11,27 @@ KEYCLOAK_URL=http://localhost:8180 # Default URL when using docker-compose
 HORREUM_USER=user
 HORREUM_PASSWORD=secret
 TOKEN=$(curl -s -X POST $KEYCLOAK_URL/auth/realms/horreum/protocol/openid-connect/token \
-     -H 'content-type: application/x-www-form-urlencoded' \
-     -d 'username='$HORREUM_USER'&password='$HORREUM_PASSWORD'&grant_type=password&client_id=horreum-ui' \
-     | jq -r .access_token)
+    -H 'content-type: application/x-www-form-urlencoded' \
+    -d 'username='$HORREUM_USER'&password='$HORREUM_PASSWORD'&grant_type=password&client_id=horreum-ui' \
+    | jq -r .access_token)
 ```
+
+## Using offline token
+
+Access token has very limited timespan; when you want to perform the upload from CI script and don't want to store the password inside you can keep an offline token. This token cannot be used directly as an access token; instead you can store it and use it to obtain a regular short-lived access token:
+
+```bash
+OFFLINE_TOKEN=$(curl -s -X POST $KEYCLOAK_URL/auth/realms/horreum/protocol/openid-connect/token \
+    -H 'content-type: application/x-www-form-urlencoded' \
+    -d 'username='$HORREUM_USER'&password='$HORREUM_PASSWORD'&grant_type=password&client_id=horreum-ui&scope=offline_access' \
+    | jq -r .refresh_token)
+TOKEN=$(curl -s -X POST $KEYCLOAK_URL/auth/realms/horreum/protocol/openid-connect/token \
+    -H 'content-type: application/x-www-form-urlencoded' \
+    -d 'grant_type=refresh_token&client_id=horreum-ui&refresh_token='$OFFLINE_TOKEN' \
+    |  jq -r .access_token)
+```
+
+Note that the offline token also expires eventually, by default after 30 days.
 
 ## Uploading the data
 
