@@ -1,7 +1,27 @@
 # Horreum Operator
 
-Deploying Horreum for production in Openshift is easy using [Horreum operator](https://github.com/Hyperfoil/horreum-operator); you can install it through the Operator Marketplace. This operator installs [Horreum](https://github.com/Hyperfoil/Horreum), services it depends on - PostgreSQL database and Keycloak SSO - and for convenience also [Hyperfoil Report](https://github.com/Hyperfoil/report).
+Deploying Horreum for production in OpenShift is easy using [Horreum operator](https://github.com/Hyperfoil/horreum-operator); you can install it through the Operator Marketplace. This operator installs [Horreum](https://github.com/Hyperfoil/Horreum), services it depends on - PostgreSQL database and Keycloak SSO - and for convenience also [Hyperfoil Report](https://github.com/Hyperfoil/report).
 
+## Installation steps
+
+1. From OperatorHub install `horreum` in your namespace.
+2. Create a pvc in the namespace where horreum operator was installed (`oc apply -f <your_pvc_filename>.yaml -n <your_horreum_namespace>`). The pvc is required by the postgres database and must be in place before the database pod is created by the operator. PVC should have the same name as specified in the CR definition below. See example pvc definition: 
+
+```yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: horreum-postgres
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  volumeMode: Filesystem
+```
+
+3. Create horreum CR, so that all pods wil lbe created by the horreum operator (`oc apply -f <your_cr_filename>.yaml -n <your_horreum_namespace>`). 
 See an [example](https://github.com/Hyperfoil/horreum-operator/tree/master/deploy/crds/hyperfoil.io_v1alpha1_horreum_cr.yaml) of the `horreum` resource:
 
 ```yaml
@@ -15,6 +35,9 @@ spec:
   keycloak:
     route:
       host: keycloak.apps.mycloud.example.com
+  grafana:
+    route:
+      host: grafana.apps.mycloud.example.com
   postgres:
     persistentVolumeClaim: horreum-postgres
   report:
@@ -36,7 +59,7 @@ When the `horreum` resource gets ready, login into Keycloak using administrator 
 ```sh
 NAME=$(oc get horreum -o jsonpath='{$.items[0].metadata.name}')
 oc get secret $NAME-keycloak-admin -o json | \
-    jq '{ user: .data.user | @base64d, password: .data.password | @base64d }'
+    jq '{ user: .data.username | @base64d, password: .data.password | @base64d }'
 ```
 
 For details of roles in Horreum please refer to [user management](./user_management.html).
