@@ -16,19 +16,6 @@ export PGDATABASE=horreum
 psql -c "CREATE ROLE \"appuser\" noinherit login password 'SecurEpaSSw0!2D';" postgres
 ```
 
-Now set up database structure using the scripts in [resources directory](https://github.com/Hyperfoil/Horreum/tree/master/repo/src/main/resources). Keep the value used in `DBSECRET` secret, too.
-
-```bash
-export DBSECRET=$(cat /dev/random | head -c 33 | base64)
-psql -f structure.sql
-psql -f auxiliary.sql
-psql -c "INSERT INTO dbsecret (passphrase) VALUES ('$DBSECRET');"
-psql -f policies.sql
-psql -c "GRANT select, insert, delete, update ON ALL TABLES IN SCHEMA public TO \"appuser\";"
-psql -c "REVOKE ALL ON dbsecret FROM \"appuser\";"
-psql -c "GRANT ALL ON ALL sequences IN SCHEMA public TO \"appuser\";"
-```
-
 Now you need to setup a Keycloak user and database:
 
 ```bash
@@ -38,27 +25,32 @@ psql -c "CREATE DATABASE keycloak WITH OWNER = 'keycloakuser';"
 
 ## Keycloak setup
 
-Before starting Keycloak you should adjust the [realm definition](https://github.com/Hyperfoil/Horreum/blob/master/repo/src/main/resources/keycloak-horreum.json); for clients `horreum` and `horreum-ui` you need to adjust these URLs:
-
-* `rootUrl`
-* `adminUrl`
-* `webOrigins`
-* `redirectUris` (make sure to include the `/*` to match all subpaths)
-
 For complete Keycloak setup please refer to [Keycloak Getting Started](https://www.keycloak.org/docs/latest/getting_started/index.html) - you can also use existing Keycloak instance.
 
-To import the realm use these system properties:
+Get the [realm definition](https://github.com/Hyperfoil/Horreum/blob/master/repo/src/main/resources/keycloak-horreum.json) and import it:
 
 ```bash
+REALM_CONFIG=$(mktemp horreum-docker-compose.XXXX.yaml)
+curl https://raw.githubusercontent.com/Hyperfoil/Horreum/master/repo/src/main/resources/keycloak-horreum.json \
+    -s -o $REALM_CONFIG
 ./bin/standalone.sh \
     -Dkeycloak.profile.feature.upload_scripts=enabled \
     -Dkeycloak.migration.action=import \
     -Dkeycloak.migration.provider=singleFile \
-    -Dkeycloak.migration.file=/path/to/keycloak-horreum.json \
+    -Dkeycloak.migration.file=$REALM_CONFIG \
     -Dkeycloak.migration.strategy=IGNORE_EXISTING
 ```
 
-When Keycloak starts you should access its admin console and create team roles, users and [assign them appropriatelly](user_management.html). For correct integration with Grafana please remember to set email for each user (this will be used purely to match Grafana identities).
+When Keycloak starts you should access its admin console and adjust URLs for clients `horreum` and `horreum-ui`:
+
+* Root URL (`rootUrl`)
+* Valid Redirect URIs (`redirectUris`) - make sure to include the `/*` to match all subpaths
+* Admin URL (`adminUrl`)
+* Web Oridins (`webOrigins`)
+
+After that create the role `__user_reader`, go to 'Role Mappings' tab, select `realm-management` in Client Roles and give this user the `view-users` role. Make sure that this user has the `offline_access` Realm Role as well.
+
+Now you can create team roles, users and [assign them appropriatelly](user_management.html). For correct integration with Grafana please remember to set email for each user (this will be used purely to match Grafana identities).
 
 You should also open `horreum` client, switch to 'Credentials' tab and record the Secret (UUID identifier).
 
@@ -73,24 +65,71 @@ Horreum is a Quarkus application and is [configured](https://quarkus.io/guides/c
 You should set up these variables:
 
 ```bash
-QUARKUS_DATASOURCE_URL=jdbc:postgresql://my.database.host:5432/horreum
-# Do not use DB superuser! SQL executed by Horreum might be compromised.
+# --- DATABASE ---
+# These two URLs should be identical
+QUARKUS_DATASOURCE_MIGRATION_JDBC_URL=jdbc:postgresql://db.local:5432/horreum
+QUARKUS_DATASOURCE_JDBC_URL=jdbc:postgresql://db.local:5432/horreum
+# This is the regular user Horreum will use for DB access
 QUARKUS_DATASOURCE_USERNAME=appuser
 QUARKUS_DATASOURCE_PASSWORD=SecurEpaSSw0!2D
-# Secret generated during database setup
-REPO_DB_SECRET=xxxxxxxxxxxxxxxxxxxxxxxxx
+# This is the user that has full control over 'horreum' database
+QUARKUS_DATASOURCE_MIGRATION_USERNAME=dbadmin
+QUARKUS_DATASOURCE_MIGRATION_PASSWORD=Curr3ntAdm!nPwd
+# Secret generated during database setup: run `SELECT * FROM dbsecret` as DB admin
+HORREUM_DB_SECRET=xxxxxxxxxxxxxxxxxxxxxxxxx
+
+# --- KEYCLOAK ---
 # This URL must be accessible from Horreum, but does not have to be exposed to the world
-QUARKUS_OIDC_AUTH_SERVER_URL=https://my.keycloak.host/auth/realms/horreum
-# Make sure to include the /auth path. This URL must be externally accessible.
-REPO_KEYCLOAK_URL=https://my.keycloak.host/auth
+QUARKUS_OIDC_AUTH_SERVER_URL=https://keycloak.local/auth/realms/horreum
+# You might need to set this property to the external Keycloak URL
+QUARKUS_OIDC_TOKEN_ISSUER=https://keycloak.example.com
 # Secret found in Keycloak console
 QUARKUS_OIDC_CREDENTIALS_SECRET=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-# You might also want to set the IP the webserver is listening to
-QUARKUS_HTTP_HOST=my.horreum.host
-QUARKUS_HTTP_PORT=80
-```
+# Make sure to include the /auth path. This URL must be externally accessible.
+HORREUM_KEYCLOAK_URL=https://keycloak.example.com/auth
+# Keycloak URL for internal access
+HORREUM_KEYCLOAK_MP_REST_URL=https://keycloak.local
 
-If you're not running Horreum behind a trusted proxy providing edge TLS termination you should set up Quarkus to use HTTPS; Check out [certificates configuration options](https://quarkus.io/guides/all-config#quarkus-vertx-http_quarkus-vertx-http).
+# --- Grafana ---
+HORREUM_GRAFANA_ADMIN_PASSWORD=g12aPHana+Pwd
+# External Grafana URL
+HORREUM_GRAFANA_URL=https://grafana.example.com:3443
+# Internal Grafana URL. This should be secured as ATM Horreum sends the credentials using Basic auth.
+HORREUM_GRAFANA_MP_REST_URL=https://grafana.local:3443
+
+# --- HTTP ---
+# You might also want to set the IP the webserver is listening to
+QUARKUS_HTTP_HOST=123.45.67.89
+QUARKUS_HTTP_PORT=443
+# Any production instance should be run over secured connections
+QUARKUS_HTTP_SSL_CERTIFICATE_KEY_STORE_FILE=/path/to/keystore.jks
+QUARKUS_HTTP_SSL_CERTIFICATE_KEY_STORE_PASSWORD=keystore-password
+QUARKUS_HTTP_INSECURE_REQUESTS=disabled
+# If you share the certificate for Horreum and Keycloak/Grafana disable HTTP/2 to avoid connection coalescing
+QUARKUS_HTTP_HTTP2=false
+# URL for Horreum external access (advertised in permanent links etc.)
+HORREUM_URL=https://horreum.example.com
+# Internal URL for services that load data from Horreum (e.g. Grafana)
+HORREUM_INTERNAL_URL=https://horreum.local:8443
+
+# --- Mailserver ---
+QUARKUS_MAILER_FROM=horreum@horreum.example.com
+QUARKUS_MAILER_HOST=smtp.example.com
+QUARKUS_MAILER_PORT=25
+QUARKUS_MAILER_START_TLS=disabled
+QUARKUS_MAILER_LOGIN=disabled
+
+# --- Other ---
+# By default webhook notifications that fail to verify TLS integrity fail; set this to ignore verification result.
+# HORREUM_HOOK_TLS_INSECURE=true
+
+# This is an offline token for the __user_reader user. You can obtain that with
+# curl -s -X POST https://keycloak.example.com/auth/realms/horreum/protocol/openid-connect/token \
+#      -H 'content-type: application/x-www-form-urlencoded' \
+#      -d 'username=__user_reader&password='$PASSWORD'&grant_type=password&client_id=horreum-ui&scope=offline_access' \
+#     | jq -r .refresh_token
+HORREUM_KEYCLOAK_USER_READER_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+```
 
 With all this in you can finally start Horreum as any other Java application (note: dependencies in `repo/target/lib/` must be present):
 

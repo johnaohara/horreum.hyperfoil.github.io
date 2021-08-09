@@ -10,8 +10,9 @@ We define 3 levels of access to each item (run, test or schema):
 * protected: available to all authenticated users that have the `viewer` role (see below)
 * private: available only to users who 'own' this data - those who have the team role.
 
-In addition to these 3 levels, each item defines a random 'token': everyone who knows this token can read the record.
-This token should be reset any time the restriction level changes.
+In addition to these 3 levels, runs and schemas can have a 'token' (randomly generated string): everyone who knows this token can read the record. This token is reset any time the restriction level changes.
+
+Tests can have tokens, too: you can have arbitrary number of tokens, each with a subset of read, modify and upload privileges.
 
 ## Users and roles
 
@@ -29,3 +30,7 @@ Users who explore runs, create and modify new tests should have the `engineers-t
 You can also create a role that allows read-only access to team's private runs, `engineers-viewer` consisting of `engineers-team` and `viewer`.
 
 The admin role is not tied to any of the teams.
+
+## Extra roles
+
+In order to retrieve a list of users and teams there's a special user `__user_reader`. This user has `view-users` role in `realm-management` client scope. With [Openshift installation](/docs/operator.html) or [docker-compose/podman-compose](/docs/docker_compose.html) this user is created automatically, with a bare-metal installation you need to create it yourselves.
