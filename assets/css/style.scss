@@ -19,7 +19,7 @@ html, body { height: 100%; }
 
 .tasks { clear: both; display: table; width: 100% }
 
-.task { width: 18%; height: 180px; padding: 20px; float: left; color: black; text-align: center; }
+.task { width: 160px; height: 180px; padding: 20px; float: left; color: black; text-align: center; }
 .task:hover { box-shadow: 0 0 30px black; text-decoration: none; border-radius: 5px; transform: scale(1.05)}
 .task img { width: 100px; border: 0px; vertical-align: bottom; display: table-cell; }
 
@@ -45,4 +45,18 @@ h2:hover .anchor, h3:hover .anchor { visibility: visible; }
 @keyframes target-fade {
 	from { color: red; }
 	to { color: inherit; }
+}
+
+sup { vertical-align: super;}
+
+.screenshot {
+	width: 100vw;
+	position: relative;
+	left: 50%;
+	margin-left: -50vw;
+	text-align: center;
+}
+
+.screenshot img {
+	max-width: 80vw;
 }
