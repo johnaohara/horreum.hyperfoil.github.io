@@ -4,9 +4,9 @@
 
 Any document stored in Horreum is called a **Run** - usually this is the output of a single CI build. Horreum does not need to know much about: it accepts it as a plain JSON document and stores it in the database with very little metadata.
 
-Each Run belongs to a series called a **Test**. This is where you can define metrics and setup regression analytics. As you could do the same things for multiple logical series (e.g. if you're running the same test on 32-bit and 64-bit system) you can use **test tags** to differentiate between flavours of the test, too.
+Each Run belongs to a series called a **Test**. This is where you can define metrics and setup regression testing. As you could do the same things for multiple logical series (e.g. if you're running the same test on 32-bit and 64-bit system) you can use **test tags** to differentiate between flavours of the test, too.
 
-If you want to do anything but upload and retrieve data from Horreum, such as customize the UI or run regression analysis you need to tell Horreum how to extract data from those fuzzy JSONs: in case of Horreum this is a combination of jsonpaths[^1] and Javascript/Typescript code. However it's impractical to define the JSONPaths directly in the test: when you're running the test for several months or years it is quite likely that the format of your results will evolve, although the information inside stay consistent. That's why the data in a Run should contain the `$schema` key:
+If you want to do anything but upload and retrieve data from Horreum, such as customize the UI or run regression testing you need to tell Horreum how to extract data from those fuzzy JSONs: in case of Horreum this is a combination of jsonpaths[^1] and Javascript/Typescript code. However it's impractical to define the JSONPaths directly in the test: when you're running the test for several months or years it is quite likely that the format of your results will evolve, although the information inside stay consistent. That's why the data in a Run should contain the `$schema` key:
 
 ```json
 {

@@ -66,15 +66,15 @@ menu: false
     </a>
     <a class="task" href="docs/regression.html">
         <div class="task_icon_box">
-            <img src="assets/images/regression.png" alt="Regression variables">
+            <img src="assets/images/regression.png" alt="Regression testing">
         </div>
-        Regression variables
+        Regression testing
     </a>
     <a class="task" href="docs/webhooks.html">
         <div class="task_icon_box">
-            <img src="assets/images/webhooks.png" alt="Define webhooks">
+            <img src="assets/images/webhooks.png" alt="Webhooks">
         </div>
-        Define webhooks
+        Webhooks
     </a>
     <!-- TODO
     <a class="task" href="docs/backup.html">

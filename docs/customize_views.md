@@ -36,4 +36,4 @@ When you save the view, navigate to Tests and click on the link in Run Count col
 
 You might be wondering why you can't set the JSON path directly in the view; [Tests, Runs and Schemas](/docs/test_run_schema.html) explains why this separation is useful when the format of your data evolves. However you don't need to switch to the Schema when adding view components: when you start typing a non-existent accessor, you can add it to a schema in a modal dialogue.
 
-We can continue with defining the variables for [regression analysis](/docs/regression.html).
+We can continue with defining the variables for [regression testing](/docs/regression.html).
