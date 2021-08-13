@@ -1,4 +1,4 @@
-# How to create a new Test and Schema
+# How to create a new Test
 
 After installing Horreum, creating required [roles and users](/docs/user_management.html) in Keycloak you will start with a blank table of tests:
 

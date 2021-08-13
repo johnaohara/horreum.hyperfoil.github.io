@@ -1,6 +1,6 @@
 # Tests, runs and schemas
 
-*This article explains the basic concepts in Horreum; if you're looking for a step-by-step guide go to [Create a Test and Schema](/docs/create_test_and_schema.html ).*
+*This article explains the basic concepts in Horreum; if you're looking for a step-by-step guide go to [Create a Test](/docs/create_test.html ).*
 
 Any document stored in Horreum is called a **Run** - usually this is the output of a single CI build. Horreum does not need to know much about: it accepts it as a plain JSON document and stores it in the database with very little metadata.
 

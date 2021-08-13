@@ -4,7 +4,7 @@ Horreum accepts any valid **JSON** as the input. To get maximum out of Horreum, 
 
 ## Getting the token
 
-New data can be uploaded into Horreum only by authorized users. We recommend setting up a separate user account for the load-driver (e.g. [Hyperfoil](https://hyperfoil.io)) or CI toolchain that will upload the data as part of your benchmark pipeline. This role should be a composition of the owner team role (e.g. `dev-team`) and `uploader` role - call this role `dev-uploader`. Note that in the [docker-compose](/docs/docker-compose.html) setup the `user` account already has this role.
+New data can be uploaded into Horreum only by authorized users. We recommend setting up a separate user account for the load-driver (e.g. [Hyperfoil](https://hyperfoil.io)) or CI toolchain that will upload the data as part of your benchmark pipeline. This role should be a composition of the owner team role (e.g. `dev-team`) and `uploader` role - call this role `dev-uploader`. Note that in the [docker-compose](/docs/docker_compose.html) setup the `user` account already has this role.
 
 ```bash
 KEYCLOAK_URL=http://localhost:8180 # Default URL when using docker-compose
