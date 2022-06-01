@@ -76,6 +76,12 @@ menu: false
         </div>
         Webhooks
     </a>
+    <a class="task" href="docs/datasets.html">
+        <div class="task_icon_box">
+            <img src="assets/images/runs_to_datasets.png" alt="Transform Runs to Datasets">
+        </div>
+        Transform Run to Dataset
+    </a>
     <!-- TODO
     <a class="task" href="docs/backup.html">
         <div class="task_icon_box">
