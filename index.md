@@ -5,7 +5,9 @@
 layout: default
 menu: false
 ---
+
 # Horreum
+
 <h3 id="project_description">{{ site.description }}</h3>
 
 <h4>Installation</h4>
@@ -31,11 +33,11 @@ menu: false
 </div>
 <h4>The basics</h4>
 <div class="tasks">
-    <a class="task" href="docs/test_run_schema.html">
+    <a class="task" href="docs/concepts.html">
         <div class="task_icon_box">
             <img src="assets/images/puzzle.png" alt="Tests, Runs and Schemas">
         </div>
-        Tests, Runs and Schemas
+        Tests, Runs, Datasets and Schemas
     </a>
     <a class="task" href="docs/user_management.html">
         <div class="task_icon_box">
@@ -58,17 +60,17 @@ menu: false
         </div>
         Upload data
     </a>
-    <a class="task" href="docs/customize_views.html">
+    <a class="task" href="docs/define_schema.html">
         <div class="task_icon_box">
-            <img src="assets/images/customize_views.png" alt="Customize views">
+            <img src="assets/images/define_schema.png" alt="Define Schema and View">
         </div>
-        Customize views
+        Define Schema and View
     </a>
-    <a class="task" href="docs/regression.html">
+    <a class="task" href="docs/change_detection.html">
         <div class="task_icon_box">
-            <img src="assets/images/regression.png" alt="Regression testing">
+            <img src="assets/images/change_detection.png" alt="Change detection">
         </div>
-        Regression testing
+        Change detection
     </a>
     <a class="task" href="docs/webhooks.html">
         <div class="task_icon_box">
