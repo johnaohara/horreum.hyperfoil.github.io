@@ -10,88 +10,92 @@ menu: false
 
 <h3 id="project_description">{{ site.description }}</h3>
 
-<h4>Installation</h4>
+<h4>Tutorials</h4>
 <div class="tasks">
-    <a class="task" href="docs/operator.html">
+    <a class="task" href="docs/tutorial/start.html">
         <div class="task_icon_box">
-            <img src="assets/images/cloud_deploy.png" alt="Deploy on Openshift">
+            <img src="assets/images/index/local_machine.png" alt="Start locally">
         </div>
-        Deploy on Openshift
+        Start Horreum on local machine
     </a>
-    <a class="task" href="docs/docker_compose.html">
+    <a class="task" href="docs/tutorial/create_test_run.html">
         <div class="task_icon_box">
-            <img src="assets/images/docker_compose.png" alt="Deploy using docker-compose">
+            <img src="assets/images/index/create_test.png" alt="Create Test and Run">
         </div>
-        Deploy using docker-compose
-    </a>
-    <a class="task" href="docs/baremetal.html">
-        <div class="task_icon_box">
-            <img src="assets/images/baremetal.png" alt="Install on baremetal">
-        </div>
-        Install on bare-metal machine
+        Create a test and upload Run
     </a>
 </div>
-<h4>The basics</h4>
+<h4>How to...</h4>
 <div class="tasks">
-    <a class="task" href="docs/concepts.html">
+    <a class="task" href="docs/howto/operator.html">
         <div class="task_icon_box">
-            <img src="assets/images/puzzle.png" alt="Tests, Runs and Schemas">
+            <img src="assets/images/index/cloud_deploy.png" alt="Deploy on Openshift">
+        </div>
+        ...deploy Horreum on Kubernetes/Openshift
+    </a>
+    <a class="task" href="docs/howto/baremetal.html">
+        <div class="task_icon_box">
+            <img src="assets/images/index/baremetal.png" alt="Run on baremetal">
+        </div>
+        ...run Horreum on baremetal
+    </a>
+    <a class="task" href="docs/howto/add_users.html">
+        <div class="task_icon_box">
+            <img src="assets/images/index/users.png" alt="Users">
+        </div>
+        ...add users and set roles
+    </a>
+    <a class="task" href="docs/howto/create_test.html">
+        <div class="task_icon_box">
+            <img src="assets/images/index/create_test.png" alt="Create a new Test">
+        </div>
+        ...create a new Test
+    </a>
+    <a class="task" href="docs/howto/upload.html">
+        <div class="task_icon_box">
+            <img src="assets/images/index/upload.png" alt="Upload data">
+        </div>
+        ...upload Runs
+    </a>
+    <a class="task" href="docs/howto/define_schema.html">
+        <div class="task_icon_box">
+            <img src="assets/images/index/define_schema.png" alt="Define Schema and View">
+        </div>
+        ...define Schema and View
+    </a>
+    <a class="task" href="docs/howto/datasets.html">
+        <div class="task_icon_box">
+            <img src="assets/images/index/runs_to_datasets.png" alt="Transform Runs to Datasets">
+        </div>
+        ...transform Run to Dataset
+    </a>
+    <a class="task" href="docs/howto/change_detection.html">
+        <div class="task_icon_box">
+            <img src="assets/images/index/change_detection.png" alt="Change detection">
+        </div>
+        ...setup Change Detection
+    </a>
+    <a class="task" href="docs/howto/actions.html">
+        <div class="task_icon_box">
+            <img src="assets/images/index/actions.png" alt="Actions">
+        </div>
+        ...setup Actions
+    </a>
+</div>
+<h4>Discussion</h4>
+<div class="tasks">
+    <a class="task" href="docs/about/concepts.html">
+        <div class="task_icon_box">
+            <img src="assets/images/index/puzzle.png" alt="Tests, Runs and Schemas">
         </div>
         Tests, Runs, Datasets and Schemas
     </a>
-    <a class="task" href="docs/user_management.html">
+    <a class="task" href="docs/about/users.html">
         <div class="task_icon_box">
-            <img src="assets/images/users.png" alt="User managemen">
+            <img src="assets/images/index/users.png" alt="Users and roles">
         </div>
-        User management
+        About users and roles
     </a>
-</div>
-<h4>Guides</h4>
-<div>
-    <a class="task" href="docs/create_test.html">
-        <div class="task_icon_box">
-            <img src="assets/images/create_test.png" alt="Create a new Test">
-        </div>
-        Create a new Test
-    </a>
-    <a class="task" href="docs/upload.html">
-        <div class="task_icon_box">
-            <img src="assets/images/upload.png" alt="Upload data">
-        </div>
-        Upload data
-    </a>
-    <a class="task" href="docs/define_schema.html">
-        <div class="task_icon_box">
-            <img src="assets/images/define_schema.png" alt="Define Schema and View">
-        </div>
-        Define Schema and View
-    </a>
-    <a class="task" href="docs/change_detection.html">
-        <div class="task_icon_box">
-            <img src="assets/images/change_detection.png" alt="Change detection">
-        </div>
-        Change detection
-    </a>
-    <a class="task" href="docs/webhooks.html">
-        <div class="task_icon_box">
-            <img src="assets/images/webhooks.png" alt="Webhooks">
-        </div>
-        Webhooks
-    </a>
-    <a class="task" href="docs/datasets.html">
-        <div class="task_icon_box">
-            <img src="assets/images/runs_to_datasets.png" alt="Transform Runs to Datasets">
-        </div>
-        Transform Run to Dataset
-    </a>
-    <!-- TODO
-    <a class="task" href="docs/backup.html">
-        <div class="task_icon_box">
-            <img src="assets/images/backup.png" alt="Backup your data">
-        </div>
-        Backup your data
-    </a>
-    -->
 </div>
 <div style="clear: both">
 Horreum is licensed under <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a>.<br>

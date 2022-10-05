@@ -20,7 +20,7 @@ Note that this function is calculated server-side and it is cached it the databa
 
 <div class="screenshot"><img src="/assets/images/define_schema/03_second_label.png" /></div>
 
-Finally hit the Save button, go to Tests and in the table click on the 1 with folder icon in Datasets column. (Note that by default a Run produces single dataset - more about this in [Transform Runs into Datasets](/docs/datasets.html). This will bring you to the listing of datasets in this test, and this time you can see in Schema tab that the schema was recognized.
+Finally hit the Save button, go to Tests and in the table click on the 1 with folder icon in Datasets column. (Note that by default a Run produces single dataset - more about this in [Transform Runs into Datasets](./datasets.html). This will bring you to the listing of datasets in this test, and this time you can see in Schema tab that the schema was recognized.
 
 <div class="screenshot"><img src="/assets/images/define_schema/04_datasets.png" /></div>
 
@@ -34,4 +34,4 @@ To see the result click on the Save button and then on 'Dataset list' in the upp
 
 <div class="screenshot"><img src="/assets/images/define_schema/06_datasets_view.png" /></div>
 
-You might be wondering why you can't set the JSON path directly in the view; [Concepts](/docs/concepts.html) explains why this separation is useful when the format of your data evolves. Also, label defined once can be used on multiple places, e.g. for [Change Detection](/docs/change_detection.html).
+You might be wondering why you can't set the JSON path directly in the view; [Concepts](/docs/about/concepts.html) explains why this separation is useful when the format of your data evolves. Also, label defined once can be used on multiple places, e.g. for [Change Detection](./change_detection.html).

@@ -25,16 +25,10 @@ There are few generic roles automatically created during initial realm import.
 - uploader: permission to upload new runs, useful for bot accounts (CI)
 - tester: common user that can define tests, modify or delete data.
 - manager: set team members and their roles within the team
-- admin: permission both see and change application-wide configuration such as hooks
+- admin: permission both see and change application-wide configuration such as global actions
 
 Besides the team role itself (e.g. `engineers-team`) there must be a composite roles for each team combining the team role and permission role: bot account that uploads team's data will have `engineers-uploader` which is a composite role, including `engineers-team` and `uploader`. This role cannot view team's private data, it has a write-only access.
 Users who explore runs, create and modify new tests should have the `engineers-tester` role; a composite role including `engineers-team`, `tester` and `viewer`.
 You can also create a role that allows read-only access to team's private runs, `engineers-viewer` consisting of `engineers-team` and `viewer`.
 
 The `admin` role is not tied to any of the teams.
-
-## Management in Horreum
-
-Users who have the manager role (e.g. `engineers-manager`) can create new users, add/remove existing users to to the team and manage permissions. In order to do so visit your profile settings by clicking on your name in upper right corner, and switch to the Managed Teams tab.
-
-<div class="screenshot"><img src="/assets/images/user_management/managed_teams.png" /></div>

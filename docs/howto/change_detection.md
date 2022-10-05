@@ -2,7 +2,7 @@
 
 One of the most important features of Horreum is change detection - checking if the new results significantly differ from previous data. Horreum uses **Change Detection Variables** to extract and calculate **Datapoints** - for each dataset and each variable it creates one datapoint. Horreum compares recent datapoint(s) to older ones and if it spots a significant difference it emits a **Change**, and sends a notification to subscribed users or teams. User can later confirm that there was a change (restarting the history from this point for the purpose of change detection) or dismiss it.
 
-We assume that you've already [created a Test](/docs/create_test.html), [uploaded](/docs/upload.html) some data and [defined the Schema](/docs/change_detection.html) with some extractors. Let's go to the test and switch to the 'Change Detection' tab:
+We assume that you've already [created a Test](./create_test.html), [uploaded](./upload.html) some data and [defined the Schema](./define_schema.html) with some labels. Let's go to the test and switch to the 'Change Detection' tab:
 
 <div class="screenshot"><img src="/assets/images/change_detection/00_variables.png"></div>
 
@@ -58,4 +58,4 @@ Go to the 'Missing data notifications' tab in the test and click the 'Add new ru
 
 In the 'General' tab it is possible to switch off all notifications from this test without unsubscribing or changing rules. This is useful e.g. when you bulk upload historical results and don't want to spam everyone's mailbox.
 
-You can continue exploring Horreum in the [webhooks guide](/docs/webhooks.html).
+You can continue exploring Horreum in the [Actions guide](./actions.html).
