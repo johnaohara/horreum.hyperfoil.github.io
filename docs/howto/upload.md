@@ -11,15 +11,12 @@ If you're running your tests in Jenkins you can skip a lot of the complexity bel
 
 ## Getting JWT token
 
-New data can be uploaded into Horreum only by authorized users. We recommend setting up a separate user account for the load-driver (e.g. [Hyperfoil](https://hyperfoil.io)) or CI toolchain that will upload the data as part of your benchmark pipeline. This user must have the permission to upload for given team, e.g. if you'll use `dev-team` as the owner this role is called `dev-uploader` and it is a composition of the team role (`dev-team`) and `uploader` role. You can read more about user management [here](/docs/user_management.html).
+New data can be uploaded into Horreum only by authorized users. We recommend setting up a separate user account for the load-driver (e.g. [Hyperfoil](https://hyperfoil.io)) or CI toolchain that will upload the data as part of your benchmark pipeline. This user must have the permission to upload for given team, e.g. if you'll use `dev-team` as the owner this role is called `dev-uploader` and it is a composition of the team role (`dev-team`) and `uploader` role. You can read more about user management [here](/docs/about/users.html).
 
 ```bash
-KEYCLOAK_URL=http://127.0.0.1:8180 # Default URL when using docker-compose
-HORREUM_USER=user
-HORREUM_PASSWORD=secret
-TOKEN=$(curl -s -X POST $KEYCLOAK_URL/realms/horreum/protocol/openid-connect/token \
-    -H 'content-type: application/x-www-form-urlencoded' \
-    -d 'username='$HORREUM_USER'&password='$HORREUM_PASSWORD'&grant_type=password&client_id=horreum-ui' \
+TOKEN=$(curl -s http://localhost:8180/realms/horreum/protocol/openid-connect/token \
+    -d 'username=user' -d 'password=secret' \
+    -d 'grant_type=password' -d 'client_id=horreum-ui' \
     | jq -r .access_token)
 ```
 
@@ -30,13 +27,13 @@ A note on JWT token issuer: OIDC-enabled applications usually validate the URL t
 Access token has very limited lifespan; when you want to perform the upload from CI script and don't want to store the password inside you can keep an offline token. This token cannot be used directly as an access token; instead you can store it and use it to obtain a regular short-lived access token:
 
 ```bash
-OFFLINE_TOKEN=$(curl -s -X POST $KEYCLOAK_URL/realms/horreum/protocol/openid-connect/token \
-    -H 'content-type: application/x-www-form-urlencoded' \
-    -d 'username='$HORREUM_USER'&password='$HORREUM_PASSWORD'&grant_type=password&client_id=horreum-ui&scope=offline_access' \
+OFFLINE_TOKEN=$(curl -s http://localhost:8180/realms/horreum/protocol/openid-connect/token \
+    -d 'username=user' -d 'password=secret' \
+    -d 'grant_type=password' -d 'client_id=horreum-ui' -d 'scope=offline_access' \
     | jq -r .refresh_token)
-TOKEN=$(curl -s -X POST $KEYCLOAK_URL/realms/horreum/protocol/openid-connect/token \
-    -H 'content-type: application/x-www-form-urlencoded' \
-    -d 'grant_type=refresh_token&client_id=horreum-ui&refresh_token='$OFFLINE_TOKEN' \
+TOKEN=$(curl -s http://localhost:8180/realms/horreum/protocol/openid-connect/token \
+    -d 'refresh_token='$OFFLINE_TOKEN \
+    -d 'grant_type=refresh_token' -d 'client_id=horreum-ui' \
     |  jq -r .access_token)
 ```
 
@@ -46,7 +43,7 @@ Note that the offline token also expires eventually, by default after 30 days.
 
 In order to retrieve an upload token you need to navigate to particular Test configuration page, switch to tab 'Access' and push the 'Add new token' button, checking permissions for 'Read' and 'Upload'. The token string will be displayed only once; if you lose it please revoke the token and create a new one.
 
-This token cannot be used for Bearer Authentication (do not use it in the `Authorization` HTTP header) as in the examples below; instead you need to append `&token=<horreum-token>` to the query.
+This token should not be used for Bearer Authentication (do not use it in the `Authorization` HTTP header) as in the examples below; instead you need to append `&token=<horreum-token>` to the query.
 
 ## Uploading the data
 
@@ -56,26 +53,25 @@ There are several mandatory parameters for the upload:
 - `test`: Name or numeric ID of an existing test in Horreum. You can also use JSON Path to fetch the test name from the data, e.g. `$.info.benchmark`.
 - `start`, `stop`: Timestamps when the run commenced and terminated. This should be epoch time in milliseconds, ISO-8601-formatted string in UTC (e.g. `2020-05-01T10:15:30.00Z`) or a JSON Path to any of above.
 - `owner`: Name of the owning role with `-team` suffix, e.g. `engineers-team`.
-- `access`: one of `PUBLIC`, `PROTECTED` or `PRIVATE`. See more in [data access](./user_management.html#data-access).
+- `access`: one of `PUBLIC`, `PROTECTED` or `PRIVATE`. See more in [data access](/docs/about/users#data-access).
 
 Optionally you can also set `schema` with URI of the JSON schema, overriding (or providing) the `$schema` key in the `data`. You don't need to define the schema in Horreum ahead, though, the validation is triggered automatically whenever you add a Run or update the schema, and you'll see the result icon in Runs/Datasets listing for given test.
 
 The upload itself can look like:
 
 ```bash
-HORREUM_URL=http://localhost:8080
 TEST='$.info.benchmark'
 START='2021-08-01T10:35:22.00Z'
 STOP='2021-08-01T10:40:28.00Z'
 OWNER='dev-team'
 ACCESS='PUBLIC'
-curl $HORREUM_URL'/api/run/data?test='$TEST'&start='$START'&stop='$STOP'&owner='$OWNER'&access='$ACCESS \
+curl 'http://localhost:8080/api/run/data?test='$TEST'&start='$START'&stop='$STOP'&owner='$OWNER'&access='$ACCESS \
     -s -X POST -H 'content-type: application/json' \
     -H 'Authorization: Bearer '$TOKEN \
     -d @/path/to/data.json
 ```
 
-Assuming that you've [created the test](/docs/create_test.html) let's try to upload this JSON document:
+Assuming that you've [created the test](/docs/howto/create_test.html) let's try to upload this JSON document:
 
 ```json
 {
@@ -103,4 +99,4 @@ Even though the uploaded JSON has `$schema` key the Schema column in the table a
 
 <div class="screenshot"><img src="/assets/images/upload/02_run.png" /></div>
 
-This page shows the Original Run and an empty Dataset #1. The Dataset content is empty because without the Schema it cannot be used in any meaningful way - let's [create the schema and add some labels](/docs/define_schema.html).
+This page shows the Original Run and an empty Dataset #1. The Dataset content is empty because without the Schema it cannot be used in any meaningful way - let's [create the schema and add some labels](/docs/howto/define_schema.html).

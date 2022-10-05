@@ -1,6 +1,8 @@
 # Installing Horreum on bare-metal machine
 
-This guide documents production installation on bare-metal (or virtualized) server.
+This guide [WILL](https://github.com/RedHatPerf/project-tracking/issues/393) document production installation without helper \*-compose scripts.
+
+TODO: [THE CONTENT BELOW NEEDS TO BE UPDATED](https://github.com/RedHatPerf/project-tracking/issues/393)
 
 ## Setup database
 
@@ -27,11 +29,11 @@ psql -c "CREATE DATABASE keycloak WITH OWNER = 'keycloakuser';"
 
 For complete Keycloak setup please refer to [Keycloak Getting Started](https://www.keycloak.org/docs/latest/getting_started/index.html) - you can also use existing Keycloak instance.
 
-Get the [realm definition](https://github.com/Hyperfoil/Horreum/blob/master/repo/src/main/resources/keycloak-horreum.json) and import it:
+Get the [realm definition](https://github.com/Hyperfoil/Horreum/blob/master/infra/keycloak-horreum.json) and import it:
 
 ```bash
 REALM_CONFIG=$(mktemp horreum-docker-compose.XXXX.yaml)
-curl https://raw.githubusercontent.com/Hyperfoil/Horreum/master/repo/src/main/resources/keycloak-horreum.json \
+curl https://raw.githubusercontent.com/Hyperfoil/Horreum/master/infra/keycloak-horreum.json \
     -s -o $REALM_CONFIG
 ./bin/standalone.sh \
     -Dkeycloak.profile.feature.upload_scripts=enabled \
@@ -43,10 +45,10 @@ curl https://raw.githubusercontent.com/Hyperfoil/Horreum/master/repo/src/main/re
 
 When Keycloak starts you should access its admin console and adjust URLs for clients `horreum` and `horreum-ui`:
 
-* Root URL (`rootUrl`)
-* Valid Redirect URIs (`redirectUris`) - make sure to include the `/*` to match all subpaths
-* Admin URL (`adminUrl`)
-* Web Oridins (`webOrigins`)
+- Root URL (`rootUrl`)
+- Valid Redirect URIs (`redirectUris`) - make sure to include the `/*` to match all subpaths
+- Admin URL (`adminUrl`)
+- Web Oridins (`webOrigins`)
 
 After that create the role `__user_reader`, go to 'Role Mappings' tab, select `realm-management` in Client Roles and give this user the `view-users` role. Make sure that this user has the `offline_access` Realm Role as well.
 
@@ -58,9 +60,9 @@ You should also open `horreum` client, switch to 'Credentials' tab and record th
 
 Horreum is a Quarkus application and is [configured](https://quarkus.io/guides/config#overriding-properties-at-runtime) using one of these:
 
-* Java system properties when starting the application
-* Exported environment variables
-* Environment variables definition in `.env` file in the current working directory
+- Java system properties when starting the application
+- Exported environment variables
+- Environment variables definition in `.env` file in the current working directory
 
 You should set up these variables:
 
