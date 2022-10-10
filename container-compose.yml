@@ -1,0 +1,11 @@
+version: '3.1'
+services:
+  live-preview:
+    image: mcr.microsoft.com/vscode/devcontainers/jekyll:0-bullseye
+    ports:
+      - "4000:4000"
+    volumes:
+    - "${WORKING_PATH:-./}:/app:z"
+    stop_signal: "${STOP_SIGNAL:-SIGTERM}"
+    command:
+    - /app/start-live-preview.sh
