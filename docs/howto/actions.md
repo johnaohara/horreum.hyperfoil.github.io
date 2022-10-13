@@ -4,7 +4,7 @@
 
 In the [change detection guide](./change_detection.html) you've seen how can you inform users about changes in your project's performance. You can use another mechanism to notify other services about noteworthy events, e.g. bots commenting on version control system, updating status page or triggering another job in CI: the webhooks.
 
-Since calling arbitrary services in the intranet is security-sensitive Horreum admin has to set up a list of allowed URL prefixes (e.g. domains). As a user with the `admin` role you can see 'Administration' link in the navigation bar on the top; go there and in the 'Global Actions' tab hit the 'Add prefix' button:
+Since calling arbitrary services in the intranet is security-sensitive, Horreum administrators have to set up a list of allowed URL prefixes (e.g. domains). As a user with the `admin` role you can see 'Administration' link in the navigation bar on the top; go there and in the 'Global Actions' tab hit the 'Add prefix' button:```
 
 <div class="screenshot"><img src="/assets/images/actions/00_prefix.png"></div>
 
