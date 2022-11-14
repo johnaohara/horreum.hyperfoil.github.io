@@ -81,6 +81,12 @@ menu: false
         </div>
         ...setup Actions
     </a>
+    <a class="task" href="docs/howto/retransform_datasets.html">
+        <div class="task_icon_box">
+            <img src="assets/images/index/retransform_datasets.png" alt="Actions">
+        </div>
+        ...re-transform Datasets
+    </a>
 </div>
 <h4>Discussion</h4>
 <div class="tasks">
