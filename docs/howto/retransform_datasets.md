@@ -21,6 +21,6 @@ Alternatively, on the Test edit page
 2. Click the Re-transform datasets button
 3. Accept the prompt to re-transform datasets by clicking the button
 
-<div class="screenshot"><img src="/assets/images/datasets/test-transformers.png"></div>
+<div class="screenshot"><img src="/assets/images/datasets/test_transformers.png"></div>
 
-<div class="screenshot"><img src="/assets/images/datasets/retransform-datasets-prompt.png"></div>
+<div class="screenshot"><img src="/assets/images/datasets/retransform_datasets_prompt.png"></div>
