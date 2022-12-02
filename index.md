@@ -103,6 +103,15 @@ menu: false
         About users and roles
     </a>
 </div>
+<h4>Reference</h4>
+<div class="tasks">
+    <a class="task" href="docs/reference/openapi.html">
+        <div class="task_icon_box">
+            <img src="assets/images/index/openapi.png" alt="OpenAPI">
+        </div>
+        OpenAPI v3.0 definition
+    </a>
+</div>
 <div style="clear: both">
 Horreum is licensed under <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a>.<br>
 <br>

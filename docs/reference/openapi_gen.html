@@ -1,0 +1,27 @@
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swagger-ui-dist@3.17.0/swagger-ui.css">
+<script src="//unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js"></script>
+<style type="text/css">
+    #swagger-ui .info { display: none; }
+    #swagger-ui .svg-assets { display: none; }
+    #swagger-ui code { color: white; background: #333}
+    #swagger-ui th { background: transparent; }
+    #operations-tag-default { display: none; }
+</style>
+<div id="swagger-ui"></div>
+<script>
+
+    function render() {
+        var ui = SwaggerUIBundle({
+            url: `./openapi.yaml`,
+            dom_id: '#swagger-ui',
+            supportedSubmitMethods: [],
+            presets: [
+                SwaggerUIBundle.presets.apis,
+                SwaggerUIBundle.SwaggerUIStandalonePreset
+            ]
+        });
+    }
+
+    render()
+</script>
