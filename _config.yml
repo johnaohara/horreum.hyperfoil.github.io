@@ -16,7 +16,7 @@
 title: Horreum
 email: hyperfoil@hyperfoil.io
 description: >- # this means to ignore newlines until "baseurl:"
-  General-purpose performance results repository
+  General-purpose performance results change detection
 baseurl: ""
 url: "https://horreum.hyperfoil.io"
 twitter_username: horreum-does-not-tweet
